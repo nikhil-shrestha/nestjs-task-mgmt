@@ -8,18 +8,23 @@ import {
   Patch,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TasksStatus } from './tasks.model';
 import { TaskStatusValidationPipe } from './pipes/task-status.pipe';
+import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Get()
-  getAllTasks() {
+  getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto) {
+    if (Object.keys(filterDto).length) {
+      return this.tasksService.getTasksWithFilter(filterDto);
+    }
     return this.tasksService.getAllTasks();
   }
 
