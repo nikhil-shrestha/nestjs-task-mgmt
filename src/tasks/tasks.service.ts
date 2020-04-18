@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Task } from './tasks.model';
+import * as uuid from 'uuid/v1';
+import { Task, TasksStatus } from './tasks.model';
 
 @Injectable()
 export class TasksService {
@@ -7,5 +8,17 @@ export class TasksService {
 
   getAllTasks() {
     return this.tasks;
+  }
+
+  createTask(title: string, description: string): Task {
+    const task: Task = {
+      id: uuid(),
+      title,
+      description,
+      status: TasksStatus.OPEN,
+    };
+
+    this.tasks.push(task);
+    return task;
   }
 }
