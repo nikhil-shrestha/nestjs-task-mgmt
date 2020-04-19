@@ -19,6 +19,8 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status.pipe';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TasksStatus } from './task-staus.enum';
+import { User } from 'src/auth/user.entity';
+import { GetUser } from 'src/auth/get-user.decorator';
 
 @Controller('tasks')
 @UseGuards(AuthGuard())
@@ -37,8 +39,8 @@ export class TasksController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createTask(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.createTask(createTaskDto);
+  createTask(@Body() createTaskDto: CreateTaskDto, @GetUser() user: User) {
+    return this.tasksService.createTask(createTaskDto, user);
   }
 
   @Delete(':id')
