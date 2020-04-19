@@ -47,8 +47,8 @@ export class TasksController {
   }
 
   @Delete(':id')
-  deleteTask(@Param('id', ParseIntPipe) id: number) {
-    return this.tasksService.deleteTask(id);
+  deleteTask(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
+    return this.tasksService.deleteTask(id, user);
   }
 
   @Patch('/:id/status')

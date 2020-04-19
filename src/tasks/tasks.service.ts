@@ -33,8 +33,8 @@ export class TasksService {
     return this.taskRepository.createTask(createTaskDto, user);
   }
 
-  async deleteTask(id: number) {
-    const result = await this.taskRepository.delete(id);
+  async deleteTask(id: number, user: User) {
+    const result = await this.taskRepository.delete({ id, userId: user.id });
 
     if (result.affected === 0) {
       throw new NotFoundException('Could not find task!');
