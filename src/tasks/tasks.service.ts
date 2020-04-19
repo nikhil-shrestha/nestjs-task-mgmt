@@ -14,23 +14,9 @@ export class TasksService {
     private taskRepository: TaskRepository,
   ) {}
 
-  // getAllTasks() {
-  //   return this.tasks;
-  // }
-  // getTasksWithFilter(filterDto: GetTasksFilterDto) {
-  //   const { status, search } = filterDto;
-  //   let tasks = this.getAllTasks();
-  //   if (status) {
-  //     tasks = tasks.filter(task => task.status === status);
-  //   }
-  //   if (search) {
-  //     tasks = tasks.filter(
-  //       task =>
-  //         task.title.includes(search) || task.description.includes(search),
-  //     );
-  //   }
-  //   return tasks;
-  // }
+  async getTasks(filterDto: GetTasksFilterDto) {
+    return this.taskRepository.getTasks(filterDto);
+  }
 
   async getTaskById(id: number) {
     const found = await this.taskRepository.findOne(id);
