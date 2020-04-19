@@ -19,8 +19,10 @@ export class TasksService {
     return this.taskRepository.getTasks(filterDto, user);
   }
 
-  async getTaskById(id: number) {
-    const found = await this.taskRepository.findOne(id);
+  async getTaskById(id: number, user: User) {
+    const found = await this.taskRepository.findOne({
+      where: { id, userId: user.id },
+    });
     if (!found) {
       throw new NotFoundException('Could not find task!');
     }
@@ -39,8 +41,8 @@ export class TasksService {
     }
   }
 
-  async updateTaskStatus(id: number, status: TasksStatus) {
-    const task = await this.getTaskById(id);
+  async updateTaskStatus(id: number, status: TasksStatus, user: User) {
+    const task = await this.getTaskById(id, user);
     task.status = status;
     await task.save();
     return task;
